@@ -1,0 +1,235 @@
+{
+  "source": "Caltech Faces 1999 \u2014 https://data.caltech.edu/records/6rjah-hdv18 (MIT licence)",
+  "grouping": "Photos grouped by person using SFace embeddings (cosine \u2265 0.55); dataset has no identity labels.",
+  "names_note": "Student names are fictional.",
+  "cases": [
+    {
+      "id": "S01",
+      "student": "Aarav Menon",
+      "scenario": "Genuine student, live frames",
+      "ground_truth": "same person",
+      "expected_state": "FACE_MATCH_SUPPORTED",
+      "reference": "S01/reference.jpg",
+      "frames": [
+        "S01/frame_0.jpg",
+        "S01/frame_1.jpg",
+        "S01/frame_2.jpg"
+      ],
+      "notes": "Reference and frames are different real photos of the same person.",
+      "sources": [
+        "Caltech Faces 1999 image_0308.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0309.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0310.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0311.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S02",
+      "student": "Diya Kapoor",
+      "scenario": "Genuine student, live frames",
+      "ground_truth": "same person",
+      "expected_state": "FACE_MATCH_SUPPORTED",
+      "reference": "S02/reference.jpg",
+      "frames": [
+        "S02/frame_0.jpg",
+        "S02/frame_1.jpg",
+        "S02/frame_2.jpg"
+      ],
+      "notes": "Reference and frames are different real photos of the same person.",
+      "sources": [
+        "Caltech Faces 1999 image_0217.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0218.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0219.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0220.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S03",
+      "student": "Kabir Singh",
+      "scenario": "Genuine student, live frames",
+      "ground_truth": "same person",
+      "expected_state": "FACE_MATCH_SUPPORTED",
+      "reference": "S03/reference.jpg",
+      "frames": [
+        "S03/frame_0.jpg",
+        "S03/frame_1.jpg",
+        "S03/frame_2.jpg"
+      ],
+      "notes": "Reference and frames are different real photos of the same person.",
+      "sources": [
+        "Caltech Faces 1999 image_0377.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0378.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0379.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0380.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S04",
+      "student": "Isha Reddy",
+      "scenario": "Genuine student, live frames",
+      "ground_truth": "same person",
+      "expected_state": "FACE_MATCH_SUPPORTED",
+      "reference": "S04/reference.jpg",
+      "frames": [
+        "S04/frame_0.jpg",
+        "S04/frame_1.jpg",
+        "S04/frame_2.jpg"
+      ],
+      "notes": "Reference and frames are different real photos of the same person.",
+      "sources": [
+        "Caltech Faces 1999 image_0429.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0430.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0431.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0432.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S05",
+      "student": "Rohan Das",
+      "scenario": "Substitute sits the exam",
+      "ground_truth": "different person",
+      "expected_state": "FACE_MISMATCH_SUSPECTED",
+      "reference": "S05/reference.jpg",
+      "frames": [
+        "S05/frame_0.jpg",
+        "S05/frame_1.jpg",
+        "S05/frame_2.jpg"
+      ],
+      "notes": "Frames show a different real person than the enrolled student.",
+      "sources": [
+        "Caltech Faces 1999 image_0001.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0049.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0050.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0051.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S06",
+      "student": "Sneha Pillai",
+      "scenario": "Substitute sits the exam",
+      "ground_truth": "different person",
+      "expected_state": "FACE_MISMATCH_SUSPECTED",
+      "reference": "S06/reference.jpg",
+      "frames": [
+        "S06/frame_0.jpg",
+        "S06/frame_1.jpg",
+        "S06/frame_2.jpg"
+      ],
+      "notes": "Frames show a different real person than the enrolled student.",
+      "sources": [
+        "Caltech Faces 1999 image_0091.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0139.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0140.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0141.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S07",
+      "student": "Aditya Rao",
+      "scenario": "Genuine student, very poor lighting",
+      "ground_truth": "same person (darkened)",
+      "expected_state": "LIVENESS_INCONCLUSIVE",
+      "reference": "S07/reference.jpg",
+      "frames": [
+        "S07/frame_0.jpg",
+        "S07/frame_1.jpg",
+        "S07/frame_2.jpg"
+      ],
+      "notes": "Real photos of the enrolled student, darkened to simulate a dim room.",
+      "sources": [
+        "Caltech Faces 1999 image_0242.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0243.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0244.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0245.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S08",
+      "student": "Meghna Joshi",
+      "scenario": "A second person in view",
+      "ground_truth": "same person + another person",
+      "expected_state": "MULTIPLE_FACES_DETECTED",
+      "reference": "S08/reference.jpg",
+      "frames": [
+        "S08/frame_0.jpg",
+        "S08/frame_1.jpg",
+        "S08/frame_2.jpg"
+      ],
+      "notes": "Each frame places the enrolled student next to another real person.",
+      "sources": [
+        "Caltech Faces 1999 image_0069.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0070.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0071.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0072.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0309.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0310.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0311.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S09",
+      "student": "Vivaan Shah",
+      "scenario": "Printed photo held up (replay)",
+      "ground_truth": "same photo repeated",
+      "expected_state": "LIVENESS_INCONCLUSIVE",
+      "reference": "S09/reference.jpg",
+      "frames": [
+        "S09/frame_0.jpg",
+        "S09/frame_1.jpg",
+        "S09/frame_2.jpg"
+      ],
+      "notes": "Three pixel-identical frames, as a held-up photo would produce. Heuristic only \u2014 no liveness model.",
+      "sources": [
+        "Caltech Faces 1999 image_0217.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0218.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S10",
+      "student": "Tara Bose",
+      "scenario": "Student looks away from the camera",
+      "ground_truth": "no face in frame",
+      "expected_state": "NO_FACE_DETECTED",
+      "reference": "S10/reference.jpg",
+      "frames": [
+        "S10/frame_0.jpg",
+        "S10/frame_1.jpg",
+        "S10/frame_2.jpg"
+      ],
+      "notes": "Frames are background crops of real photos with no face.",
+      "sources": [
+        "Caltech Faces 1999 image_0377.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0378.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0379.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0380.jpg (MIT licence)"
+      ],
+      "real_human": true
+    },
+    {
+      "id": "S11",
+      "student": "Nikhil Verma",
+      "scenario": "Single uploaded photo only",
+      "ground_truth": "same person, one image",
+      "expected_state": "FACE_MATCH_SUPPORTED",
+      "reference": "S11/reference.jpg",
+      "frames": [
+        "S11/frame_0.jpg"
+      ],
+      "notes": "A match on one image is not enough to start the exam (needs 3 live frames).",
+      "sources": [
+        "Caltech Faces 1999 image_0429.jpg (MIT licence)",
+        "Caltech Faces 1999 image_0433.jpg (MIT licence)"
+      ],
+      "real_human": true
+    }
+  ]
+}

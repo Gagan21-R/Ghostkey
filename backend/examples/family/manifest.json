@@ -1,0 +1,232 @@
+{
+  "note": "Human voices: MINDS-14 real callers (CC BY 4.0). Family relationships, requests and carrier events are SYNTHETIC.",
+  "examples": [
+    {
+      "id": "F01",
+      "relation": "daughter",
+      "claimed_caller": "Meera (daughter)",
+      "protected_person": "Asha Rao",
+      "action": "send_money",
+      "amount": 5000,
+      "carrier_events": [],
+      "account_events": [],
+      "independent_verification": "passed",
+      "audio": "F01/call.wav",
+      "seconds": 24.0,
+      "transcript": "hi I've recently been sent a new bank card for my account I've tried to use his card and it's not letting me pay for anything I tried to pay for things in the shops and it just keeps getting too kind wondering if so I might be able to help because there is money in there I'm not too sure why",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-GB 60268d70c7abb7f832138a47.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "card_issues"
+    },
+    {
+      "id": "F02",
+      "relation": "son",
+      "claimed_caller": "Rohan (son)",
+      "protected_person": "Asha Rao",
+      "action": "emergency_transfer",
+      "amount": 40000,
+      "carrier_events": [
+        {
+          "type": "number_reassigned"
+        }
+      ],
+      "account_events": [],
+      "independent_verification": "failed",
+      "audio": "F02/call.wav",
+      "seconds": 19.4,
+      "transcript": "hello I am called because I want to ask about using my card in Nigeria I'll be going there in about 2 weeks and I just wanted to call to see if I needed anything to my account is there anything I need to do before using gift card in Nigeria thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602baa5c963e11ccd901cd68.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "abroad"
+    },
+    {
+      "id": "F03",
+      "relation": "husband",
+      "claimed_caller": "Suresh (husband)",
+      "protected_person": "Asha Rao",
+      "action": "chat",
+      "amount": null,
+      "carrier_events": [],
+      "account_events": [],
+      "independent_verification": null,
+      "audio": "F03/call.wav",
+      "seconds": 19.9,
+      "transcript": "hey mate I'm just at the pub last night and look I've lost my card there's been no transaction on it so far but I just really need it frozen as soon as possible if you do that for me you'd be a bloody legend thank you so much",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-AU response_27.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "freeze"
+    },
+    {
+      "id": "F04",
+      "relation": "brother",
+      "claimed_caller": "Anil (brother)",
+      "protected_person": "Asha Rao",
+      "action": "send_money",
+      "amount": 150000,
+      "carrier_events": [
+        {
+          "type": "sim_swap_alert"
+        }
+      ],
+      "account_events": [],
+      "independent_verification": "not completed",
+      "audio": "F04/call.wav",
+      "seconds": 16.7,
+      "transcript": "hi I'm making a rather large payment and it says I'm going to get a text message I don't know what the payment codes that I get are supposed to do and you help tell me what exactly is going on here thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602ba804963e11ccd901cd0b.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "high_value_payment"
+    },
+    {
+      "id": "F05",
+      "relation": "mother",
+      "claimed_caller": "Lakshmi (mother)",
+      "protected_person": "Asha Rao",
+      "action": "send_money",
+      "amount": 3000,
+      "carrier_events": [],
+      "account_events": [],
+      "independent_verification": "passed",
+      "audio": "F05/call.wav",
+      "seconds": 12.1,
+      "transcript": "hello I'm just calling in to see if I can pay my bill please because my credit is due right now and was wondering if I can make a payment right now",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-GB 60268f4fc7abb7f832138c1e.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "pay_bill"
+    },
+    {
+      "id": "F06",
+      "relation": "nephew",
+      "claimed_caller": "Karthik (nephew)",
+      "protected_person": "Asha Rao",
+      "action": "share_otp",
+      "amount": null,
+      "carrier_events": [],
+      "account_events": [],
+      "independent_verification": null,
+      "audio": "F06/call.wav",
+      "seconds": 22.0,
+      "transcript": "yes good morning I'm just ringing you know the species transaction on my account I just know soon noticed recently just don't recognise where the transaction was carried out so I just wonder if you could check it out for me and see if there's any more details on the transaction",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-AU response_10.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "latest_transactions"
+    },
+    {
+      "id": "F07",
+      "relation": "cousin",
+      "claimed_caller": "Divya (cousin)",
+      "protected_person": "Asha Rao",
+      "action": "emergency_transfer",
+      "amount": 25000,
+      "carrier_events": [
+        {
+          "type": "number_reassigned",
+          "confirmed": false
+        }
+      ],
+      "account_events": [],
+      "independent_verification": "passed",
+      "audio": "F07/call.wav",
+      "seconds": 18.3,
+      "transcript": "hello Jess I have a few questions I'm depositing money into the account I was wondering if I could deposit some money and I'm I'm not quite sure where where can I deposit money and how do I transfer money into the account",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602ba6e7963e11ccd901cce2.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "cash_deposit"
+    },
+    {
+      "id": "F08",
+      "relation": "sister",
+      "claimed_caller": "Priya (sister)",
+      "protected_person": "Asha Rao",
+      "action": "send_money",
+      "amount": 10000,
+      "carrier_events": [],
+      "account_events": [
+        {
+          "type": "recovery_channel_changed"
+        }
+      ],
+      "independent_verification": "failed",
+      "audio": "F08/call.wav",
+      "seconds": 21.0,
+      "transcript": "I am just wondering if I can speak to somebody about the maximum amount of money I can withdraw with my card from an ATM machine so just wondering if there is a maximum and what that you know we can have a bit more information about that would be really appreciated thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-GB 60268df5c7abb7f832138aaa.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "atm_limit"
+    },
+    {
+      "id": "F09",
+      "relation": "father",
+      "claimed_caller": "Ramesh (father)",
+      "protected_person": "Asha Rao",
+      "action": "chat",
+      "amount": null,
+      "carrier_events": [],
+      "account_events": [],
+      "independent_verification": null,
+      "audio": "F09/call.wav",
+      "seconds": 24.1,
+      "transcript": "hi I just want to know how do I set up a joint accounts if possible can you run through the steps in the app how to set an account up like resemble what tabs to click on the and just give me an overdue or overall step by step guide on how to do it thank you very much",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-AU response_17.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "joint_account"
+    },
+    {
+      "id": "F10",
+      "relation": "son",
+      "claimed_caller": "Arjun (son)",
+      "protected_person": "Asha Rao",
+      "action": "send_money",
+      "amount": 8000,
+      "carrier_events": [],
+      "account_events": [],
+      "independent_verification": "not completed",
+      "audio": "F10/call.wav",
+      "seconds": 8.8,
+      "transcript": "make a question about my direct debit that I have I don't know if it went into my account and I'd like to know thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602bae94bb1e6d0fbce92271.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "direct_debit"
+    },
+    {
+      "id": "F11",
+      "relation": "son",
+      "claimed_caller": "Rohan (son)",
+      "protected_person": "Asha Rao",
+      "action": "emergency_transfer",
+      "amount": 50000,
+      "carrier_events": [
+        {
+          "type": "number_reassigned"
+        }
+      ],
+      "account_events": [],
+      "independent_verification": "failed",
+      "audio": "F11/call.mp3",
+      "seconds": 11.4,
+      "transcript": "Ma, it's Rohan. I've had an accident and I'm at the hospital. Send fifty thousand rupees right now, and please don't tell papa.",
+      "voice_truth": "ai_synthetic",
+      "voice_source": "Microsoft neural TTS en-IN-PrabhatNeural (synthetic, not a clone of a real person)"
+    },
+    {
+      "id": "F12",
+      "relation": "son",
+      "claimed_caller": "Rohan (son)",
+      "protected_person": "Asha Rao",
+      "action": "share_otp",
+      "amount": null,
+      "carrier_events": [
+        {
+          "type": "sim_swap_alert"
+        }
+      ],
+      "account_events": [],
+      "independent_verification": null,
+      "audio": "F12/call.mp3",
+      "seconds": 10.2,
+      "transcript": "माँ, मैं रोहन बोल रहा हूँ। बैंक से एक कोड आया होगा, जल्दी से मुझे वह ओटीपी बता दो, बहुत ज़रूरी है।",
+      "voice_truth": "ai_synthetic",
+      "voice_source": "Microsoft neural TTS hi-IN-MadhurNeural (synthetic, not a clone of a real person)"
+    }
+  ]
+}

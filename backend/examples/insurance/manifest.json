@@ -1,0 +1,337 @@
+{
+  "note": "Human voices: MINDS-14 real callers (CC BY 4.0). Policyholders and claims are SYNTHETIC demo records.",
+  "examples": [
+    {
+      "id": "I01",
+      "policyholder": "Kiran Patel",
+      "policy_ref": "POL-DEMO-7100",
+      "claim_id": "CLM-DEMO-3000",
+      "claim_type": "Contact details update",
+      "action": "change_contact_details",
+      "amount": null,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": "full",
+      "synthetic_record": true,
+      "audio": "I01/call.wav",
+      "seconds": 15.6,
+      "transcript": "I want to change my address to something else I have moved and I no longer at that particular address so again I'm calling about getting a new address for updating my address rather",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602baaa805f96973d67944af.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "address"
+    },
+    {
+      "id": "I02",
+      "policyholder": "Neha Gupta",
+      "policy_ref": "POL-DEMO-7101",
+      "claim_id": "CLM-DEMO-3001",
+      "claim_type": "Premium payment",
+      "action": "pay_premium",
+      "amount": 18500,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I02/call.wav",
+      "seconds": 10.2,
+      "transcript": "hi I'm bringing today because I would like to know how to pay a bill on my credit card bill could you please assist me in how I do that thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-GB 60268fccc421a821df7c18cf.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "pay_bill"
+    },
+    {
+      "id": "I03",
+      "policyholder": "Sanjay Nair",
+      "policy_ref": "POL-DEMO-7102",
+      "claim_id": "CLM-DEMO-3002",
+      "claim_type": "Hospitalisation",
+      "action": "submit_high_value_claim",
+      "amount": 450000,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I03/call.wav",
+      "seconds": 20.6,
+      "transcript": "hi I'm having some trouble purchasing a product on lies a large purchase and it's saying after respond to a text message or I've just received text message I'm so I'm not too sure where these SMS messages are going so he can help me out that that be great thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-AU response_9.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "high_value_payment"
+    },
+    {
+      "id": "I04",
+      "policyholder": "Pooja Sharma",
+      "policy_ref": "POL-DEMO-7103",
+      "claim_id": "CLM-DEMO-3003",
+      "claim_type": "Claim payout card problem",
+      "action": "change_payout_details",
+      "amount": 62000,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": "full",
+      "synthetic_record": true,
+      "audio": "I04/call.wav",
+      "seconds": 17.0,
+      "transcript": "hi good afternoon can you help me with my card I'm having trouble I'm here at 9 to use my card but it won't work it will not make a payment here tell me what's wrong with this please",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602baeb75f67b421554f64be.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "card_issues"
+    },
+    {
+      "id": "I05",
+      "policyholder": "Ravi Kumar",
+      "policy_ref": "POL-DEMO-7104",
+      "claim_id": "CLM-DEMO-3004",
+      "claim_type": "Lost payout card",
+      "action": "freeze_payouts",
+      "amount": null,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I05/call.wav",
+      "seconds": 21.5,
+      "transcript": "hello there I'm just calling in to ask if I could freeze my debit card please because I've lost it somewhere around my house and I can't seem to find it but I'm worried that I may have dropped it so could you freeze my debit card please just until I find it",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-GB 60268eb4c7abb7f832138b27.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "freeze"
+    },
+    {
+      "id": "I06",
+      "policyholder": "Ayesha Siddiqui",
+      "policy_ref": "POL-DEMO-7105",
+      "claim_id": "CLM-DEMO-3005",
+      "claim_type": "Travel medical claim",
+      "action": "submit_claim",
+      "amount": 95000,
+      "documents": [
+        "claim_form"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I06/call.wav",
+      "seconds": 22.7,
+      "transcript": "I have a card from your bank and I need to know if I'm able to use it when I go overseas and if there's going to be a fees to like when I like go and how much is going to cost me I don't want to go buy a lot of fees when I come back",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-AU CA63406491c31c5521f98194b2cc40e1c0_4.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "abroad"
+    },
+    {
+      "id": "I07",
+      "policyholder": "Manoj Pillai",
+      "policy_ref": "POL-DEMO-7106",
+      "claim_id": "CLM-DEMO-3006",
+      "claim_type": "Claim status",
+      "action": "claim_status",
+      "amount": null,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I07/call.wav",
+      "seconds": 23.6,
+      "transcript": "hi I was looking at my recent transactions and I saw a bunch on the apps that I didn't recognize I didn't make I would like the account to be Frozen please and if I could get",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602ba078bb1e6d0fbce91fd7.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "latest_transactions"
+    },
+    {
+      "id": "I08",
+      "policyholder": "Shalini Rao",
+      "policy_ref": "POL-DEMO-7107",
+      "claim_id": "CLM-DEMO-3007",
+      "claim_type": "Add nominee",
+      "action": "add_nominee",
+      "amount": null,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I08/call.wav",
+      "seconds": 15.0,
+      "transcript": "hi there I was just calling regards to setting up a joint account and just wondering how they would do that if I come into the store or if I could do that on the app trying to get that for me thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-GB 60268e65c7abb7f832138af4.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "joint_account"
+    },
+    {
+      "id": "I09",
+      "policyholder": "Deepak Joshi",
+      "policy_ref": "POL-DEMO-7108",
+      "claim_id": "CLM-DEMO-3008",
+      "claim_type": "Premium auto-debit",
+      "action": "pay_premium",
+      "amount": 9200,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": null,
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I09/call.wav",
+      "seconds": 23.6,
+      "transcript": "eat my account that your bank so what are my customers asked me to make some famous truetype direct debit and I wanted to enquire on how to use it like I've never use it before and I need to set it up and can you guys call him back and help me guide me to set it up and give me some more information about it thank you",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-AU response_30.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "direct_debit"
+    },
+    {
+      "id": "I10",
+      "policyholder": "Farah Khan",
+      "policy_ref": "POL-DEMO-7109",
+      "claim_id": "CLM-DEMO-3009",
+      "claim_type": "Accident claim",
+      "action": "submit_claim",
+      "amount": 120000,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": "duplicate",
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I10/call.wav",
+      "seconds": 9.0,
+      "transcript": "hi I want you to tell me my account balance until I'm just see it and I need to be able to reconcile a my account",
+      "voice_truth": "human",
+      "voice_source": "MINDS-14 en-US 602ba5a9bb1e6d0fbce92077.wav (CC BY 4.0, real caller)",
+      "dataset_intent": "balance"
+    },
+    {
+      "id": "I11",
+      "policyholder": "Gautam Sen",
+      "policy_ref": "POL-DEMO-7110",
+      "claim_id": "CLM-DEMO-3010",
+      "claim_type": "Hospitalisation",
+      "action": "change_payout_details",
+      "amount": 380000,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": "payout_changed",
+      "auth": null,
+      "synthetic_record": true,
+      "audio": "I11/call.mp3",
+      "seconds": 11.9,
+      "transcript": "Hello, I am the policyholder. Please change the payout account on my claim to a new account ending seven seven six five today. I am in a hurry.",
+      "voice_truth": "ai_synthetic",
+      "voice_source": "Microsoft neural TTS en-IN-NeerjaNeural (synthetic, not a clone of a real person)"
+    },
+    {
+      "id": "I12",
+      "policyholder": "Rekha Iyer",
+      "policy_ref": "POL-DEMO-7111",
+      "claim_id": "CLM-DEMO-3011",
+      "claim_type": "Critical illness",
+      "action": "submit_high_value_claim",
+      "amount": 1500000,
+      "documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "required_documents": [
+        "claim_form",
+        "id_proof",
+        "supporting_bills"
+      ],
+      "anomaly": "duplicate",
+      "auth": "full",
+      "synthetic_record": true,
+      "audio": "I12/call.mp3",
+      "seconds": 10.0,
+      "transcript": "I'm calling about my critical illness claim of fifteen lakh rupees. Please approve it quickly, the documents are already with you.",
+      "voice_truth": "ai_synthetic",
+      "voice_source": "Microsoft neural TTS en-IN-PrabhatNeural (synthetic, not a clone of a real person)"
+    }
+  ]
+}
