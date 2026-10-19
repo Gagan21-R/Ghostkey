@@ -3,6 +3,7 @@ which only the Next.js server holds — the browser never sees it or the Detecti
 from __future__ import annotations
 
 import hashlib
+import shutil
 import hmac
 import json
 import os
@@ -865,3 +866,78 @@ def ingest_report(payload: dict):
     run.finish(status, summary=str(payload.get("summary", ""))[:500] or status, acceptance=payload.get("acceptance") or [],
                execution_status="error" if status == "ERROR" else "completed")
     return {"report_id": run.id}
+
+
+# ---------- one-time database import (move a laptop database to a hosted deployment) ----------
+REQUIRED_TABLES = {"test_reports", "investigations", "identities", "audit_events"}
+
+
+def _db_file() -> str:
+    from .db import DB_URL
+    if not DB_URL.startswith("sqlite:///"):
+        raise HTTPException(400, "database import only supports SQLite")
+    return os.path.abspath(DB_URL[len("sqlite:///"):])
+
+
+def _restart_backend() -> None:
+    """Exit so start.sh's supervisor restarts the backend on the new database file (fresh connections)."""
+    os._exit(0)
+
+
+def _import_enabled() -> str:
+    tok = config.env("GHOSTKEY_ADMIN_TOKEN")
+    return tok if len(tok) >= 24 else ""
+
+
+@app.get("/api/admin/import-db/status", dependencies=[Depends(auth)])
+def import_status():
+    return {"enabled": bool(_import_enabled())}
+
+
+@app.post("/api/admin/import-db", dependencies=[Depends(auth)])
+async def import_database(database: UploadFile = File(...), x_admin_token: Optional[str] = Header(default=None)):
+    """Replace this deployment's SQLite database with an uploaded one (e.g. the laptop's), keeping a backup.
+    Disabled unless GHOSTKEY_ADMIN_TOKEN (24+ chars) is set; requires that token in X-Admin-Token.
+    Remove the variable afterwards to switch the endpoint off again."""
+    import sqlite3
+    import tempfile
+    import threading
+    expected = _import_enabled()
+    if not expected:
+        raise HTTPException(404, "database import is not enabled (set GHOSTKEY_ADMIN_TOKEN, 24+ characters)")
+    if not hmac.compare_digest(config.clean(x_admin_token), expected):
+        raise HTTPException(403, "wrong or missing X-Admin-Token")
+    data = await database.read()
+    if len(data) > 200_000_000:
+        raise HTTPException(413, "database file larger than 200 MB")
+    if not data.startswith(b"SQLite format 3\x00"):
+        raise HTTPException(422, "not a SQLite database file")
+    target = _db_file()
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix="ghostkey-import-", suffix=".db", dir=os.path.dirname(target))
+    with os.fdopen(fd, "wb") as fh:
+        fh.write(data)
+    try:
+        con = sqlite3.connect(tmp)
+        ok = con.execute("pragma integrity_check").fetchone()[0]
+        tables = {r[0] for r in con.execute("select name from sqlite_master where type='table'")}
+        missing = REQUIRED_TABLES - tables
+        counts = {t: con.execute(f"select count(*) from {t}").fetchone()[0] for t in sorted(REQUIRED_TABLES & tables)}
+        con.close()
+    except sqlite3.DatabaseError as e:
+        os.remove(tmp)
+        raise HTTPException(422, f"unreadable SQLite file: {e}")
+    if ok != "ok" or missing:
+        os.remove(tmp)
+        raise HTTPException(422, f"database rejected: integrity={ok}, missing tables={sorted(missing)}")
+    backup = None
+    if os.path.exists(target):
+        backup = f"{target}.bak-{int(time.time())}"
+        shutil.copy2(target, backup)
+    for side in ("-wal", "-shm", "-journal"):
+        if os.path.exists(target + side):
+            os.remove(target + side)
+    os.replace(tmp, target)
+    print(f"[ghostkey] database imported ({len(data)} bytes): {counts}; previous kept at {backup}; restarting backend", flush=True)
+    threading.Timer(1.0, _restart_backend).start()
+    return {"ok": True, "imported": counts, "bytes": len(data), "backup_of_previous": backup, "restarting": True}

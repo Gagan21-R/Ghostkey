@@ -309,3 +309,40 @@ def test_config_accepts_messy_dashboard_values(monkeypatch):
     assert config.env_bool("GHOSTKEY_PUBLIC", False) is False
     monkeypatch.setenv("DETECTIFAI_BASE_URL", '"platform.detectif.ai/v1/"')
     assert config.detectif_base_url() == "https://platform.detectif.ai"
+
+
+# ---------- one-time database import ----------
+def test_database_import_is_gated_validated_and_keeps_a_backup(monkeypatch, tmp_path, client):
+    import sqlite3
+    target = tmp_path / "live.db"
+    target.write_bytes(b"old")  # pretend existing database
+    monkeypatch.setattr(main, "_db_file", lambda: str(target))
+    restarted = []
+    monkeypatch.setattr(main, "_restart_backend", lambda: restarted.append(True))
+    # a valid GhostKey database to upload: snapshot of the test database
+    src = sqlite3.connect(main.SessionLocal().get_bind().url.database)
+    snap = tmp_path / "snap.db"
+    out = sqlite3.connect(snap)
+    src.backup(out)
+    out.close()
+    src.close()
+    files = {"database": ("ghostkey.db", snap.read_bytes(), "application/octet-stream")}
+    monkeypatch.delenv("GHOSTKEY_ADMIN_TOKEN", raising=False)
+    assert client.post("/api/admin/import-db", headers=H, files=files).status_code == 404  # disabled by default
+    monkeypatch.setenv("GHOSTKEY_ADMIN_TOKEN", "short")
+    assert client.post("/api/admin/import-db", headers=H, files=files).status_code == 404  # weak token = disabled
+    tok = "a-long-admin-token-for-the-import-1234"
+    monkeypatch.setenv("GHOSTKEY_ADMIN_TOKEN", tok)
+    assert client.get("/api/admin/import-db/status", headers=H).json() == {"enabled": True}
+    assert client.post("/api/admin/import-db", headers={**H, "X-Admin-Token": "wrong"}, files=files).status_code == 403
+    bad = {"database": ("x.db", b"not sqlite", "application/octet-stream")}
+    assert client.post("/api/admin/import-db", headers={**H, "X-Admin-Token": tok}, files=bad).status_code == 422
+    r = client.post("/api/admin/import-db", headers={**H, "X-Admin-Token": tok}, files=files)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["imported"]["test_reports"] >= 1 and body["backup_of_previous"]
+    assert target.read_bytes().startswith(b"SQLite format 3")
+    assert open(body["backup_of_previous"], "rb").read() == b"old"
+    import time as _t
+    _t.sleep(1.3)
+    assert restarted == [True]

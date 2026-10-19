@@ -17,6 +17,8 @@ async function forward(req: NextRequest, path: string[]) {
   const headers: Record<string, string> = { 'X-GhostKey-Token': TOKEN };
   const ct = req.headers.get('content-type');
   if (ct) headers['content-type'] = ct;
+  const admin = req.headers.get('x-admin-token'); // only used by the one-time database import
+  if (admin) headers['X-Admin-Token'] = admin;
   const body = req.method === 'GET' || req.method === 'HEAD' ? undefined : Buffer.from(await req.arrayBuffer());
   for (let attempt = 0; ; attempt++) {
     try {
