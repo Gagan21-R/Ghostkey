@@ -10,6 +10,10 @@ from sqlalchemy import JSON, Boolean, Column, Float, Integer, String, Text, crea
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_URL = os.getenv("GHOSTKEY_DB", "sqlite:///./ghostkey.db")
+if DB_URL.startswith("sqlite:///"):
+    # create the database's folder if needed (e.g. a fresh /data volume, or a relative "data/..." path)
+    _db_dir = os.path.dirname(os.path.abspath(DB_URL[len("sqlite:///"):]))
+    os.makedirs(_db_dir, exist_ok=True)
 engine = create_engine(DB_URL, connect_args={"check_same_thread": False} if DB_URL.startswith("sqlite") else {})
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 Base = declarative_base()
