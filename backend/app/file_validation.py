@@ -14,8 +14,10 @@ import wave
 
 AUDIO_EXT = {".wav", ".mp3", ".flac", ".ogg", ".opus", ".oga", ".webm", ".m4a", ".aac", ".aiff", ".aif", ".mp4", ".3gp"}
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
-MAX_AUDIO_MB = float(os.getenv("GHOSTKEY_MAX_AUDIO_MB", "25"))
-MAX_IMAGE_MB = float(os.getenv("GHOSTKEY_MAX_IMAGE_MB", "8"))
+from .config import env_float  # noqa: E402
+
+MAX_AUDIO_MB = env_float("GHOSTKEY_MAX_AUDIO_MB", 25)
+MAX_IMAGE_MB = env_float("GHOSTKEY_MAX_IMAGE_MB", 8)
 MIN_DEEPFAKE_SECONDS, MAX_DEEPFAKE_SECONDS = 4.0, 120.0
 
 

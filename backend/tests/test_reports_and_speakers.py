@@ -289,3 +289,23 @@ def test_report_filters(client):
     client.post("/api/reports/ingest", headers=H, json={"status": "FAIL", "category": "frontend_integration", "name": "filter check"})
     fails = client.get("/api/reports?status=FAIL&category=frontend_integration", headers=H).json()["items"]
     assert fails and all(r["status"] == "FAIL" and r["category"] == "frontend_integration" for r in fails)
+
+
+# ---------- forgiving configuration (values pasted into hosting dashboards) ----------
+def test_config_accepts_messy_dashboard_values(monkeypatch):
+    from app import config
+    for n in config.DETECTIF_KEY_NAMES:
+        monkeypatch.delenv(n, raising=False)
+    monkeypatch.setenv("DETECTIFAI_KEY", '  "dtf_abc123xyz"\n')
+    assert config.detectif_key() == ("dtf_abc123xyz", "DETECTIFAI_KEY")
+    monkeypatch.delenv("DETECTIFAI_KEY")
+    monkeypatch.setenv("MY_DETECTIF_SECRET_KEY", "dtf_other_value")  # any name with DETECTIF + KEY
+    assert config.detectif_key()[0] == "dtf_other_value"
+    monkeypatch.setenv("GHOSTKEY_MAX_AUDIO_MB", "25MB")
+    assert config.env_float("GHOSTKEY_MAX_AUDIO_MB", 1) == 25
+    monkeypatch.setenv("GHOSTKEY_PUBLIC", " TRUE ")
+    assert config.env_bool("GHOSTKEY_PUBLIC", False) is True
+    monkeypatch.setenv("GHOSTKEY_PUBLIC", "maybe")
+    assert config.env_bool("GHOSTKEY_PUBLIC", False) is False
+    monkeypatch.setenv("DETECTIFAI_BASE_URL", '"platform.detectif.ai/v1/"')
+    assert config.detectif_base_url() == "https://platform.detectif.ai"

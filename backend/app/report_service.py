@@ -29,7 +29,7 @@ from .db import SessionLocal, TestReport
 from .schemas import new_id
 
 APP_VERSION = "2.0.0"
-ENVIRONMENT = os.getenv("GHOSTKEY_ENV", "local")
+ENVIRONMENT = (os.getenv("GHOSTKEY_ENV") or "local").strip().strip("'\"") or "local"
 STATUSES = ("PASS", "FAIL", "HOLD", "ERROR", "SKIPPED")
 
 # ---------- serializer / sanitizer ----------
@@ -39,8 +39,8 @@ _BIOMETRIC_KEYS = {"embedding", "face_embedding", "reference_embedding"}
 
 
 def _secrets() -> list[str]:
-    vals = [os.getenv(k, "") for k in ("DETECTIF_API_KEY", "DETECTIFAI_API_KEY", "GHOSTKEY_API_TOKEN")]
-    return [v for v in vals if v and len(v) >= 8]
+    from . import config
+    return config.secret_values()
 
 
 def sanitize(obj: Any, _depth: int = 0) -> Any:

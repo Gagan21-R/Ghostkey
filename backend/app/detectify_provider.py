@@ -17,10 +17,11 @@ from typing import Optional
 
 import httpx
 
+from . import config
 from .file_validation import provider_file
 from .schemas import ProviderResult, ProviderStatus
 
-BASE_URL = os.getenv("DETECTIFAI_BASE_URL", "https://platform.detectif.ai").rstrip("/").removesuffix("/v1")
+BASE_URL = config.detectif_base_url()
 TIMEOUT = httpx.Timeout(45.0, connect=10.0)
 RETRYABLE = {429, 500, 502, 503, 504}
 
@@ -39,7 +40,7 @@ CAPABILITIES = {
 
 class DetectifyProvider:
     def __init__(self, api_key: Optional[str] = None, base_url: str = BASE_URL, transport: Optional[httpx.BaseTransport] = None, max_retries: int = 2):
-        self.api_key = api_key if api_key is not None else (os.getenv("DETECTIF_API_KEY") or os.getenv("DETECTIFAI_API_KEY", ""))
+        self.api_key = api_key if api_key is not None else config.detectif_key()[0]
         self.base_url = base_url
         self.max_retries = max_retries
         self._transport = transport
@@ -50,7 +51,7 @@ class DetectifyProvider:
 
     def _request(self, method: str, path: str, *, files=None, data=None, auth: bool = True) -> dict:
         if auth and not self.api_key:
-            raise ProviderError("UNAVAILABLE", "missing_api_key", "DETECTIF_API_KEY is not configured on the backend")
+            raise ProviderError("UNAVAILABLE", "missing_api_key", "DetectifAI key is not configured: set DETECTIF_API_KEY in the server environment (backend/.env locally, Variables on Railway/Render)")
         headers = {"Authorization": f"Bearer {self.api_key}"} if auth else {}
         if method == "POST":
             headers["Idempotency-Key"] = str(uuid.uuid4())  # same key on retries → no double charge

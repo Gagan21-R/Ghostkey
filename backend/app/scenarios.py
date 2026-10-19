@@ -12,7 +12,7 @@ from .insurance_data import CLAIMS, POLICYHOLDERS
 from .schemas import FaceFrame, InvestigationRequest, ProviderResult, ProviderStatus, RequestedAction
 
 SAMPLES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "samples")
-LIVE_SPEAKER_ID = os.getenv("GHOSTKEY_DEMO_SPEAKER_ID", "cust-zira-rao-7d3e")  # enrolled earlier on this DetectifAI account
+LIVE_SPEAKER_ID = ((os.getenv("GHOSTKEY_DEMO_SPEAKER_ID") or "").strip().strip("'\"").strip() or "cust-zira-rao-7d3e")  # enrolled earlier on this DetectifAI account
 
 
 def audio_fx(verdict: str, score: float) -> ProviderResult:

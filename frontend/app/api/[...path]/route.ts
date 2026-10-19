@@ -9,17 +9,33 @@ const BACKEND = clean(process.env.BACKEND_URL) || 'http://127.0.0.1:8000';
 const TOKEN = clean(process.env.GHOSTKEY_API_TOKEN) || 'ghostkey-dev-token';
 console.log(`[ghostkey] proxy internal token fingerprint: ${createHash('sha256').update(TOKEN).digest('hex').slice(0, 8)} -> ${BACKEND}`);
 
+const RETRIES = 8;              // connection refused right after a deploy: the backend is still starting
+const TIMEOUT_MS = 120_000;     // DetectifAI calls can take a while; never hang forever
+
 async function forward(req: NextRequest, path: string[]) {
   const url = `${BACKEND}/api/${path.join('/')}${req.nextUrl.search}`;
   const headers: Record<string, string> = { 'X-GhostKey-Token': TOKEN };
   const ct = req.headers.get('content-type');
   if (ct) headers['content-type'] = ct;
-  const body = req.method === 'GET' ? undefined : Buffer.from(await req.arrayBuffer());
-  try {
-    const res = await fetch(url, { method: req.method, headers, body, cache: 'no-store' });
-    return new Response(await res.arrayBuffer(), { status: res.status, headers: { 'content-type': res.headers.get('content-type') || 'application/json' } });
-  } catch {
-    return Response.json({ detail: 'GhostKey backend is not reachable on ' + BACKEND }, { status: 502 });
+  const body = req.method === 'GET' || req.method === 'HEAD' ? undefined : Buffer.from(await req.arrayBuffer());
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const res = await fetch(url, { method: req.method, headers, body, cache: 'no-store', signal: AbortSignal.timeout(TIMEOUT_MS) });
+      const out: Record<string, string> = { 'content-type': res.headers.get('content-type') || 'application/json' };
+      const cd = res.headers.get('content-disposition');
+      if (cd) out['content-disposition'] = cd;
+      return new Response(await res.arrayBuffer(), { status: res.status, headers: out });
+    } catch (e: any) {
+      if (e?.name === 'TimeoutError' || e?.name === 'AbortError') {
+        return Response.json({ detail: `The GhostKey backend did not answer within ${TIMEOUT_MS / 1000} s. Please retry.` }, { status: 504 });
+      }
+      // nothing reached the backend (connection refused / reset): safe to retry, the request was never processed
+      if (attempt < RETRIES) {
+        await new Promise((r) => setTimeout(r, 1000));
+        continue;
+      }
+      return Response.json({ detail: `GhostKey backend is not reachable on ${BACKEND} (it may still be starting — retry in a few seconds)` }, { status: 502 });
+    }
   }
 }
 

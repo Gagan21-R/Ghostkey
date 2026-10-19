@@ -87,7 +87,7 @@ export default function Dashboard() {
   const alerts: [string, string][] = [];
   if (error) alerts.push(['bad', `Status check failed: ${error}`]);
   if (status && !status.health?.reachable) alerts.push(['bad', `DetectifAI unreachable: ${status.health?.error ?? 'no response'}`]);
-  if (status && !status.key_configured) alerts.push(['bad', 'DetectifAI key missing — set DETECTIF_API_KEY in backend/.env']);
+  if (status && !status.key_configured) alerts.push(['bad', 'DetectifAI key missing — set DETECTIF_API_KEY in the server environment (backend/.env locally, Variables on Railway)']);
   if (credits?.error) alerts.push(['bad', `Credits check failed: ${credits.error}`]);
   if (!credits?.unlimited && typeof credits?.available === 'number' && credits.available < 300) alerts.push(['warn', `Only ${credits.available} DetectifAI credits left (about ${Math.floor(credits.available / (credits.price_per_operation || 50))} checks).`]);
   if (status && !status.face_model?.available) alerts.push(['warn', 'Face model files missing — exam checks unavailable.']);

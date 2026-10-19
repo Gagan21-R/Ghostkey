@@ -25,7 +25,7 @@ export default function SettingsPage() {
       <section className="panel">
         <h2 className="mb-2 font-semibold">DetectifAI</h2>
         <table className="w-full text-sm"><tbody>
-          <Row k="API key configured" v={s.detectifai.api_key_configured ? 'yes (value hidden)' : 'NO — set DETECTIF_API_KEY in backend/.env'} />
+          <Row k="API key configured" v={s.detectifai.api_key_configured ? 'yes (value hidden)' : 'NO — set DETECTIF_API_KEY (backend/.env locally, Variables on Railway)'} />
           <Row k="Env variable names" v={s.detectifai.api_key_env_vars.join(' or ')} />
           <Row k="Base URL" v={s.detectifai.base_url} />
           <Row k="Health" v={status?.health?.reachable ? `reachable (${status.health.status})` : status ? `unreachable: ${status.health?.error}` : '…'} />

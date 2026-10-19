@@ -18,6 +18,7 @@ import time  # noqa: E402
 
 from fastapi.responses import FileResponse, JSONResponse  # noqa: E402
 
+from . import config  # noqa: E402
 from . import report_service as test_reports  # noqa: E402
 from . import audit_service, examples, face_service, orchestrator, scenarios, session_service, speaker_identity_agent, voice_authenticity_agent  # noqa: E402
 from .file_validation import AUDIO_EXT, MAX_AUDIO_MB, MAX_IMAGE_MB, UploadError, loop_wav, validate_audio, validate_image, wav_speech_seconds  # noqa: E402
@@ -47,7 +48,7 @@ def auth(x_ghostkey_token: Optional[str] = Header(default=None)):
         raise HTTPException(status_code=401, detail="missing or invalid X-GhostKey-Token")
 
 
-RETENTION_DAYS = float(os.getenv("GHOSTKEY_CASE_RETENTION_DAYS", "7"))
+RETENTION_DAYS = config.env_float("GHOSTKEY_CASE_RETENTION_DAYS", 7)
 
 
 @app.exception_handler(UploadError)
@@ -57,6 +58,7 @@ def upload_error(_req, exc: UploadError):
 
 @app.on_event("startup")
 def startup():
+    config.startup_summary()
     init_db()
     test_reports.mark_interrupted()
     _seed()
@@ -152,7 +154,7 @@ def health():
 @app.get("/api/provider/status", dependencies=[Depends(auth)])
 def provider_status():
     h = provider.health()
-    c = provider.credits() if provider.api_key else {"error": "DETECTIFAI_API_KEY not configured"}
+    c = provider.credits() if provider.api_key else {"error": "DetectifAI key not configured (set DETECTIF_API_KEY in the server environment)", "code": "missing_api_key"}
     return {"provider": "detectify_ai", "key_configured": bool(provider.api_key), "health": h, "credits": c, "capabilities": CAPABILITIES,
             "face_model": {**face_service.MODEL_INFO, "available": face_service.available()}, "llm": "none configured — agents are deterministic and versioned",
             "n8n": "not connected — the same workflow runs in FastAPI (orchestrator.py)"}
@@ -351,7 +353,7 @@ def delete_identity(iid: str):
 
 
 # ---------- local downloads (judge picks a file they just downloaded) ----------
-LOCAL_DOWNLOADS = os.getenv("GHOSTKEY_LOCAL_DOWNLOADS", "1") == "1"
+LOCAL_DOWNLOADS = config.env_bool("GHOSTKEY_LOCAL_DOWNLOADS", True)
 DOWNLOADS_DIR = os.path.expanduser(os.getenv("GHOSTKEY_DOWNLOADS_DIR", os.path.join("~", "Downloads")))
 
 
@@ -697,7 +699,7 @@ async def insurance_investigate(claim_id: str = Form(...), actor_role: str = For
 @app.get("/api/settings", dependencies=[Depends(auth)])
 def settings():
     return {
-        "detectifai": {"api_key_configured": bool(provider.api_key), "api_key_env_vars": ["DETECTIF_API_KEY", "DETECTIFAI_API_KEY"], "base_url": provider.base_url,
+        "detectifai": {"api_key_configured": bool(provider.api_key), "api_key_env_vars": list(config.DETECTIF_KEY_NAMES), "api_key_source": config.detectif_key()[1], "base_url": provider.base_url,
                        "capabilities": CAPABILITIES, "scopes_note": "Scopes are not exposed by the API; a 403 insufficient_scope response is reported if a scope is missing."},
         "internal_api_token_configured": API_TOKEN != "ghostkey-dev-token",
         "face_model": {**face_service.MODEL_INFO, "available": face_service.available()},
@@ -819,7 +821,7 @@ def run_backend_tests():
     import xml.etree.ElementTree as ET
     run = test_reports.start("automated_backend_tests", "Automated backend test suite (pytest)", endpoint="POST /api/reports/selftest", provider="none (mocked provider)",
                              expected={"description": "every test passes"})
-    if os.getenv("GHOSTKEY_PUBLIC") == "1":  # public link: don't let visitors start CPU-heavy test runs on the host
+    if config.env_bool("GHOSTKEY_PUBLIC", False):  # public link: don't let visitors start CPU-heavy test runs on the host
         run.finish("SKIPPED", summary="Disabled on the public deployment (GHOSTKEY_PUBLIC=1). Run `pytest` locally instead.", execution_status="completed")
         raise HTTPException(403, {"message": "The backend test suite is disabled on the public deployment.", "report_id": run.id})
     backend = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

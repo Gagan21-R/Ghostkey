@@ -14,8 +14,12 @@ RUN npm run build
 
 # ---------- 2. runtime: Python backend + Node frontend ----------
 FROM python:3.13-slim
+# Safe defaults; any of these can be overridden in the platform's variables.
+#   GHOSTKEY_DB lives on /data: attach a volume at /data and the database survives redeploys.
+#   MALLOC_ARENA_MAX keeps Python's memory small on low-RAM plans.
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 \
-    GHOSTKEY_PUBLIC=1 GHOSTKEY_LOCAL_DOWNLOADS=0
+    GHOSTKEY_PUBLIC=1 GHOSTKEY_LOCAL_DOWNLOADS=0 GHOSTKEY_ENV=production \
+    GHOSTKEY_DB=sqlite:////data/ghostkey.db MALLOC_ARENA_MAX=2
 RUN apt-get update && apt-get install -y --no-install-recommends libglib2.0-0 libgomp1 libstdc++6 ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=web /usr/local/bin/node /usr/local/bin/node
