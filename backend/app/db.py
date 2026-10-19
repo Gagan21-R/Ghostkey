@@ -7,13 +7,38 @@ import os
 import time
 
 from sqlalchemy import JSON, Boolean, Column, Float, Integer, String, Text, create_engine
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DB_URL = os.getenv("GHOSTKEY_DB", "sqlite:///./ghostkey.db")
+DEFAULT_DB = "sqlite:///./ghostkey.db"
+
+
+def _database_url(raw: str | None) -> str:
+    """Accept the forms people actually paste into hosting dashboards: surrounding quotes or spaces,
+    a plain file path ("/data/ghostkey.db"), or "sqlite:/" typos. An unusable value falls back to the
+    default with a clear log line instead of crashing the backend at import time."""
+    url = (raw or "").strip().strip("'\"").strip()
+    if not url:
+        return DEFAULT_DB
+    if "://" not in url:  # plain path → SQLite file, but only if it looks like one
+        if not url.lower().endswith((".db", ".sqlite", ".sqlite3")) or any(c in url for c in "${} "):
+            print(f"[ghostkey] WARNING: GHOSTKEY_DB is not a database URL or .db path ({url[:60]!r}); using {DEFAULT_DB}", flush=True)
+            return DEFAULT_DB
+        url = "sqlite:///" + url
+    try:
+        make_url(url)
+        return url
+    except Exception:
+        print(f"[ghostkey] WARNING: GHOSTKEY_DB is not a valid database URL ({url[:60]!r}); using {DEFAULT_DB}", flush=True)
+        return DEFAULT_DB
+
+
+DB_URL = _database_url(os.getenv("GHOSTKEY_DB"))
 if DB_URL.startswith("sqlite:///"):
     # create the database's folder if needed (e.g. a fresh /data volume, or a relative "data/..." path)
     _db_dir = os.path.dirname(os.path.abspath(DB_URL[len("sqlite:///"):]))
     os.makedirs(_db_dir, exist_ok=True)
+print(f"[ghostkey] database: {DB_URL.split('?')[0]}", flush=True)
 engine = create_engine(DB_URL, connect_args={"check_same_thread": False} if DB_URL.startswith("sqlite") else {})
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 Base = declarative_base()
