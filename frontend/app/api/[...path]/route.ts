@@ -1,9 +1,13 @@
 // Server-side proxy: the browser calls /api/*, this adds the internal token and forwards to FastAPI.
 // Neither the GhostKey token nor the DetectifAI key ever reaches the browser.
+import { createHash } from 'node:crypto';
 import { NextRequest } from 'next/server';
 
-const BACKEND = process.env.BACKEND_URL || 'http://127.0.0.1:8000';
-const TOKEN = process.env.GHOSTKEY_API_TOKEN || 'ghostkey-dev-token';
+// Same normalisation as the backend: hosting dashboards often add spaces, newlines or quotes to values.
+const clean = (v?: string) => (v ?? '').trim().replace(/^['"]+|['"]+$/g, '').trim();
+const BACKEND = clean(process.env.BACKEND_URL) || 'http://127.0.0.1:8000';
+const TOKEN = clean(process.env.GHOSTKEY_API_TOKEN) || 'ghostkey-dev-token';
+console.log(`[ghostkey] proxy internal token fingerprint: ${createHash('sha256').update(TOKEN).digest('hex').slice(0, 8)} -> ${BACKEND}`);
 
 async function forward(req: NextRequest, path: string[]) {
   const url = `${BACKEND}/api/${path.join('/')}${req.nextUrl.search}`;

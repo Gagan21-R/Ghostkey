@@ -2,6 +2,8 @@
 which only the Next.js server holds — the browser never sees it or the DetectifAI key."""
 from __future__ import annotations
 
+import hashlib
+import hmac
 import json
 import os
 from typing import Optional
@@ -24,14 +26,24 @@ from .db import AuditEvent, DecisionRow, FaceResultRow, FindingRow, Identity, In
 from .detectify_provider import CAPABILITIES, provider  # noqa: E402
 from .schemas import FaceFrame, InvestigationRequest, ProviderResult, ProviderStatus, RequestedAction, new_id  # noqa: E402
 
-API_TOKEN = os.getenv("GHOSTKEY_API_TOKEN", "ghostkey-dev-token")
+def _clean_token(raw: Optional[str]) -> str:
+    """Same normalisation as the Next.js proxy: hosting dashboards often add spaces, newlines or quotes."""
+    t = (raw or "").strip().strip("'\"").strip()
+    return t or "ghostkey-dev-token"
+
+
+API_TOKEN = _clean_token(os.getenv("GHOSTKEY_API_TOKEN"))
+_fp = lambda t: hashlib.sha256((t or "").encode()).hexdigest()[:8]  # noqa: E731  (fingerprint for logs, never the token)
+print(f"[ghostkey] backend internal token fingerprint: {_fp(API_TOKEN)}", flush=True)
 MIN_ENROLL_SPEECH_SECONDS = 3.0  # real speech required in the original sample before it may be repeated
 QUICK_ENROLL_MIN_SECONDS = 3.0  # short samples are repeated up to DetectifAI's 15 s enrollment minimum
 app = FastAPI(title="GHOSTKEY 2.0", version="2.0.0")
 
 
 def auth(x_ghostkey_token: Optional[str] = Header(default=None)):
-    if x_ghostkey_token != API_TOKEN:
+    if not hmac.compare_digest((x_ghostkey_token or "").strip(), API_TOKEN):
+        print(f"[ghostkey] rejected request: token fingerprint {_fp((x_ghostkey_token or '').strip()) if x_ghostkey_token else 'none'} "
+              f"≠ backend {_fp(API_TOKEN)}", flush=True)
         raise HTTPException(status_code=401, detail="missing or invalid X-GhostKey-Token")
 
 
