@@ -4,5 +4,7 @@
 const nextConfig = {
   reactStrictMode: true,
   distDir: process.env.NEXT_DIST_DIR || (process.env.NODE_ENV === 'production' ? '.next-prod' : '.next'),
+  // Docker builds set NEXT_OUTPUT=standalone: a self-contained server.js with only the modules it needs
+  ...(process.env.NEXT_OUTPUT === 'standalone' ? { output: 'standalone' } : {}),
 };
 export default nextConfig;

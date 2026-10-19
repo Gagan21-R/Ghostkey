@@ -19,3 +19,4 @@ backend/datasets/raw/
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
+.next-sa/

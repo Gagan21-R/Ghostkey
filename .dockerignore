@@ -1,0 +1,15 @@
+**/node_modules
+**/.next
+**/.next-prod
+**/.next-build
+**/.next-sa
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/*.db
+**/*.db-journal
+**/.env
+**/.env.local
+**/*.log
+.git
+test-audio
