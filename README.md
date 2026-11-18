@@ -12,7 +12,7 @@ record) · speaker enrollment & verification · case history (with deletion) · 
 
 ## Real-human examples & explainer
 
-- **Exam:** 11 students built from real photos in Caltech Faces 1999 (MIT licence), grouped by person with the face model; match, substitute, poor light, two people, photo replay, looking away, single photo. Run free (local model).
+- **Exam:** 11 students built from real photos in Caltech Faces 1999 (MIT licence), grouped by person with the face model; match, substitute, poor light, two people, photo replay, looking away, single photo. Run free (local model). Helps during major examinations that take place in online.
 - **Family & SIM:** 10 real callers from MINDS-14 (CC BY 4.0) + 2 labelled AI voices; the family context is synthetic.
 - **Insurance:** 10 real callers from MINDS-14 + 2 labelled AI voices; claims are synthetic.
 - "Run" skips the voice check (reported as missing evidence); "Analyse with DetectifAI" spends 1 check and uses the live result.
